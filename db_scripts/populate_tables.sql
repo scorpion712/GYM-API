@@ -5,12 +5,12 @@
 -- Insert users (Famous Fitness, Bodybuilders, etc.)
 INSERT INTO users (id, firstName, lastName, age, phone, email, idNumber, considerations, daysPerWeek)
 VALUES
-('a4f929d0-e2b6-4a8d-bcc2-dc94b3f38b3e', 'Arnold', 'Schwarzenegger', 76, '1234567890', 'arnold.schwarzenegger@example.com', '123456789', 'No back issues, needs a daily routine', 6),
-('cc8e7a1a-69e7-4fd7-9253-724b84960255', 'Jay', 'Cutler', 45, '0987654321', 'jay.cutler@example.com', '987654321', 'Heavy lifting preferred, enjoys split routines', 5),
-('f9d9f3a4-2b9f-44b9-b1f0-f953b582ed23', 'Dwayne', 'Johnson', 52, '1122334455', 'dwayne.johnson@example.com', '556677889', 'Enjoys intense cardio and weights', 6),
-('0c32de4a-9c1d-48ea-a7ad-d7b33207c973', 'Sergio', 'Oliva', 40, '2233445566', 'sergio.oliva@example.com', '776655443', 'Focus on strength and hypertrophy', 4),
-('6cfa88b9-7e3f-4653-b26f-d2cfc83d059b', 'Kai', 'Greene', 49, '3344556677', 'kai.greene@example.com', '334455667', 'Wants to focus on mind-muscle connection', 5),
-('d4b9f45a-8a9b-406d-bbfa-4e7421d913b9', 'Ronnie', 'Coleman', 59, '4455667788', 'ronnie.coleman@example.com', '998877665', 'Need extreme strength training, no cardio', 6);
+('a4f929d0-e2b6-4a8d-bcc2-dc94b3f38b3e', 'Arnold', 'Schwarzenegger', 76, '1234567890', 'arnold.schwarzenegger@example.com', '123456789', 'No back issues, needs a daily routine', 'true,true,true,true,true'),
+('cc8e7a1a-69e7-4fd7-9253-724b84960255', 'Jay', 'Cutler', 45, '0987654321', 'jay.cutler@example.com', '987654321', 'Heavy lifting preferred, enjoys split routines', 'true,true,true,true,true'),
+('f9d9f3a4-2b9f-44b9-b1f0-f953b582ed23', 'Dwayne', 'Johnson', 52, '1122334455', 'dwayne.johnson@example.com', '556677889', 'Enjoys intense cardio and weights', 'false,true,false,true,false'),
+('0c32de4a-9c1d-48ea-a7ad-d7b33207c973', 'Sergio', 'Oliva', 40, '2233445566', 'sergio.oliva@example.com', '776655443', 'Focus on strength and hypertrophy', 'true,true,false,true,true'),
+('6cfa88b9-7e3f-4653-b26f-d2cfc83d059b', 'Kai', 'Greene', 49, '3344556677', 'kai.greene@example.com', '334455667', 'Wants to focus on mind-muscle connection', 'true,false,true,false,true'),
+('d4b9f45a-8a9b-406d-bbfa-4e7421d913b9', 'Ronnie', 'Coleman', 59, '4455667788', 'ronnie.coleman@example.com', '998877665', 'Need extreme strength training, no cardio', 'true,true,true,true,true');
 
 -- Insert workout plans (Bodybuilding, Strength, Endurance, etc.)
 INSERT INTO workoutPlan (id, title, objective, duration)
@@ -63,3 +63,38 @@ VALUES
 ('d441ff19-fbfb-4296-8c9f-e17e2d87f520', 'f6827bc9-c8be-4905-b21b-7056f9be1b89', 'f597e4f5-b32e-47e7-9cfd-6e5a5591b02c'), -- Bench Press in Legs Strength
 ('f8b72c92-65a5-464f-9576-c153cfcc60a4', '98f549f4-2857-473d-bc9e-bfd1c73be445', 'e21ed0d5-8775-46b0-aef0-4df426f7a30f'), -- Deadlift in Endurance Circuit
 ('b55d8d60-f83a-4b58-a0b4-396a6c2be5c4', 'bbb6a870-97a2-40c3-9257-742d845c0c67', '66f0f34d-e36b-42ba-9d2d-598727bc7e6c'); -- Overhead Press in Full Body Lifts
+
+
+-- Insert payments for the users over the last 2-3 months, some skipped
+INSERT INTO payments (id, userId, date, amount, timesPerWeek)
+VALUES
+-- Arnold Schwarzenegger (Paid every month, no skipped months)
+('c1f3799f-d94d-4638-b2c6-9a01533c9d27', 'a4f929d0-e2b6-4a8d-bcc2-dc94b3f38b3e', '2024-08-01 00:00:00', 99.99, 4),
+('a72c7b91-408a-463b-82d1-e5b02cfcde39', 'a4f929d0-e2b6-4a8d-bcc2-dc94b3f38b3e', '2024-09-01 00:00:00', 99.99, 4),
+('f6c99d88-0870-4cbe-bd38-d9293b2692bc', 'a4f929d0-e2b6-4a8d-bcc2-dc94b3f38b3e', '2024-10-01 00:00:00', 99.99, 4),
+
+-- Jay Cutler (Skipped 1 month)
+('82e3bb69-8d36-4644-8ec9-cd221876345f', 'cc8e7a1a-69e7-4fd7-9253-724b84960255', '2024-08-15 00:00:00', 120.00, 3),
+-- Jay Cutler skipped the payment for September
+('20c9d037-b47d-4f5c-a05e-d659b44b34d1', 'cc8e7a1a-69e7-4fd7-9253-724b84960255', '2024-10-15 00:00:00', 120.00, 3),
+
+-- Dwayne Johnson (Paid every month, but skipped one month in between)
+('7b10fda3-3e64-4b88-8fe1-5a08a4bb28e9', 'f9d9f3a4-2b9f-44b9-b1f0-f953b582ed23', '2024-08-01 00:00:00', 110.00, 5),
+-- Dwayne Johnson skipped payment for September
+('5a3b01c3-2da5-4841-bc65-84b06b24a1f7', 'f9d9f3a4-2b9f-44b9-b1f0-f953b582ed23', '2024-10-01 00:00:00', 110.00, 5),
+
+-- Sergio Oliva (Paid for 2 months)
+('519ff3ad-d18f-48c3-b39b-825774a8718e', '0c32de4a-9c1d-48ea-a7ad-d7b33207c973', '2024-08-20 00:00:00', 85.00, 3),
+('fa3d92cc-cb64-4e5d-b602-625ce68cfb98', '0c32de4a-9c1d-48ea-a7ad-d7b33207c973', '2024-09-20 00:00:00', 85.00, 3),
+-- Sergio Oliva skipped October payment
+('b2836f83-eed8-4a75-b53d-c9f58047a6b6', '0c32de4a-9c1d-48ea-a7ad-d7b33207c973', '2024-10-20 00:00:00', 85.00, 3),
+
+-- Kai Greene (Paid for every month without skipping)
+('ac812a64-f597-4a87-8c27-b24db5330214', '6cfa88b9-7e3f-4653-b26f-d2cfc83d059b', '2024-08-05 00:00:00', 95.00, 4),
+('5f40d5b1-847b-4dbd-bc67-e24322a3d0ca', '6cfa88b9-7e3f-4653-b26f-d2cfc83d059b', '2024-09-05 00:00:00', 95.00, 4),
+('6f1187f2-5e5d-4421-b041-7f7f77405f02', '6cfa88b9-7e3f-4653-b26f-d2cfc83d059b', '2024-10-05 00:00:00', 95.00, 4),
+
+-- Ronnie Coleman (Missed two months payment, only paid in October)
+('25a2e95a-0ea0-47c0-a68c-592aad15e319', 'd4b9f45a-8a9b-406d-bbfa-4e7421d913b9', '2024-08-10 00:00:00', 130.00, 6),
+-- Ronnie Coleman skipped September and October payment
+('ff10e1e0-16f9-4e19-8a4d-64f80a8f8fe7', 'd4b9f45a-8a9b-406d-bbfa-4e7421d913b9', '2024-10-10 00:00:00', 130.00, 6);
