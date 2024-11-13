@@ -25,11 +25,6 @@ export const userSchema = Joi.object({
         .optional().messages({
             'string.base': 'Las consideraciones deben ser una cadena de caracteres',
             'string.max': 'Las consideraciones no pueden ser más de 255 caracteres',
-        }),
-    daysPerWeek: Joi.number().integer().min(1).max(7).required().messages({
-        'number.base': 'Los días de la semana deben ser un número',
-        'number.min': 'Los días de la semana deben ser al menos 1',
-        'number.max': 'Los días de la semana deben ser máximo 7',
-    }),
+        })
 });
 

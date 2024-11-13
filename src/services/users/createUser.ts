@@ -15,7 +15,7 @@ export const createUser = async (request: CreateUserRequest): Promise<CreateUser
     const userId = uuidv4();
     const res = await pool.query(
       'INSERT INTO users (id, firstName, lastName, age, phone, email, idNumber, considerations, daysPerWeek) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [userId, firstName, lastName, age, phone, email, dni, considerations, daysPerWeek],
+      [userId, firstName, lastName, age, phone, email, dni, considerations, daysPerWeek.toString()],
     ); 
     return { id: userId } as CreateUserResponse;
   } catch (error) {

@@ -6,5 +6,5 @@ export type CreateUserRequest = {
     email?: string;
     dni?: string;
     considerations?: string;
-    daysPerWeek: number;
+    daysPerWeek: boolean[];
 }
