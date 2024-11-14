@@ -3,9 +3,10 @@ import {
   createUser,
   getAllUsers,
   getUserById,
-  updateUserService
+  updateUserService,
+  removeUser as removeUserService
 } from '../services'; 
-import { CreateUserRequest, UpdateUserRequest, userCreateSchema, userUpdateSchema } from '../models';
+import { CreateUserRequest, RemoveUserRequest, UpdateUserRequest, userCreateSchema, userUpdateSchema } from '../models';
 import createHttpError from 'http-errors';
 
 export const create = async (req: Request, res: Response) => {  
@@ -48,6 +49,15 @@ export const updateUser = async (req:Request, res: Response) => {
     }
     const updatedUser = await updateUserService(req.body as UpdateUserRequest);
     res.status(200).json(updatedUser);
+  } catch (error) { 
+    res.status(400).send((error as Error).message);
+  }
+}
+
+export const removeUser = async (req: Request, res: Response) => {
+  try {
+    const removedUser = await removeUserService((req.params as RemoveUserRequest).id);
+    res.status(200).json(removedUser);
   } catch (error) { 
     res.status(400).send((error as Error).message);
   }
