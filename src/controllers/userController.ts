@@ -2,15 +2,16 @@ import { Request, Response } from 'express';
 import {
   createUser,
   getAllUsers,
-  getUserById
-} from '../services/users'; 
-import { CreateUserRequest, userSchema } from '../models';
+  getUserById,
+  updateUserService
+} from '../services'; 
+import { CreateUserRequest, UpdateUserRequest, userCreateSchema, userUpdateSchema } from '../models';
 import createHttpError from 'http-errors';
 
 export const create = async (req: Request, res: Response) => {  
   try {
     // Validate request body 
-    const { error } = userSchema.validate(req.body);
+    const { error } = userCreateSchema.validate(req.body);
     if (error) {
       throw createHttpError(400, `Error: ${error.details.map(e => e.message).join(', ')}`);
     }
@@ -38,3 +39,16 @@ export const getById = async (req: Request, res: Response) => {
     res.status(400).send((error as Error).message);
   }
 };
+
+export const updateUser = async (req:Request, res: Response) => {
+  try {
+    const { error } = userUpdateSchema.validate(req.body);
+    if (error) { 
+      throw createHttpError(400, `Error: ${error.details.map(e => e.message).join(', ')}`);
+    }
+    const updatedUser = await updateUserService(req.body as UpdateUserRequest);
+    res.status(200).json(updatedUser);
+  } catch (error) { 
+    res.status(400).send((error as Error).message);
+  }
+}
