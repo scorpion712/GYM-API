@@ -1,11 +1,8 @@
-import dotenv from 'dotenv';
 import createHttpError from 'http-errors';
+import { ResultSetHeader } from 'mysql2';
 
 import pool from '../../config/db';
 import { UpdateUserRequest, UpdateUserResponse } from '../../models';
-import { ResultSetHeader } from 'mysql2';
-
-dotenv.config();
 
 export const updateUserService = async (req: UpdateUserRequest) => {
   try { 

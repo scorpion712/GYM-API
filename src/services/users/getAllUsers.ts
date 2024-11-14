@@ -1,10 +1,7 @@
-import dotenv from 'dotenv';
 import createHttpError from 'http-errors';
 
 import pool from '../../config/db';
 import { adaptGetAllUsersToResponse } from '../../adapters';
-
-dotenv.config();
 
 export const getAllUsers = async () => {
   try {
