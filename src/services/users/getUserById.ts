@@ -30,4 +30,3 @@ export const getUserById = async (id: string) => {
       throw createHttpError(400, `Ha ocurrido un error al intentar obtener el usuario`);
     }
   };
-  // TO DO: Create models and adapters

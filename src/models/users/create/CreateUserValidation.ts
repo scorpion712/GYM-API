@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const userSchema = Joi.object({
+export const userCreateSchema = Joi.object({
     firstName: Joi.string().min(2).max(50).required().messages({
         'string.base': 'El nombre debe ser una cadena de caracteres',
         'any.required': 'El nombre es requerido',
@@ -25,6 +25,10 @@ export const userSchema = Joi.object({
         .optional().messages({
             'string.base': 'Las consideraciones deben ser una cadena de caracteres',
             'string.max': 'Las consideraciones no pueden ser más de 255 caracteres',
-        })
+        }),
+    daysPerWeek: Joi.array().items(Joi.boolean()).optional().messages({
+        'array.base': 'Los días por semana no corresponden',
+        'array.items': 'Revise los días por semana',
+    })
 });
 
