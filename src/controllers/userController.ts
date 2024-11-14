@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import createHttpError from 'http-errors';
+
 import {
   createUser,
   getAllUsers,
@@ -7,7 +9,6 @@ import {
   removeUser as removeUserService
 } from '../services'; 
 import { CreateUserRequest, RemoveUserRequest, UpdateUserRequest, userCreateSchema, userUpdateSchema } from '../models';
-import createHttpError from 'http-errors';
 
 export const create = async (req: Request, res: Response) => {  
   try {
