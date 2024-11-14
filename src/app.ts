@@ -3,6 +3,7 @@ import cors from 'cors';
 
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import workoutRoutes from './routes/workoutRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 // Public routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/WorkoutPlan', workoutRoutes);
 
 // Protected routes (example)
 // app.use('/api/protected', authorize(['admin', 'user']), (req, res) => {
