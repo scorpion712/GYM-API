@@ -21,3 +21,5 @@ export const getAllWorkouts = async () => {
     throw createHttpError(400, `Ha ocurrido un error al intentar obtener todos los planes de entrenamiento`);
   }
 };
+
+// TO DO: refactor query to avoid count non active users
