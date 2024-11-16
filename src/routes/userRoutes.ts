@@ -7,6 +7,6 @@ router.post('/', create);
 router.get('/', getAll); 
 router.get('/:id', getById); 
 router.put('/', updateUser);
-router.delete('/', removeUser);
+router.delete('/:id', removeUser);
 
 export default router;
