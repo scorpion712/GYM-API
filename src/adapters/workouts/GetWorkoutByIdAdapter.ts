@@ -1,20 +1,18 @@
 import { GetWorkoutByIdResponse } from "../../models";
 
-export const adaptGetWorkoutToResponse = (res: any) => { 
-    let workoutPlan : GetWorkoutByIdResponse | null = null;
-    res.forEach((row: any) => { 
-        workoutPlan = {
-            id: row.workoutPlanId,
-            name: row.title,
-            objective: row.objective,
-            duration: row.duration,
-            initDate: new Date(row.init_date).getTime(),
-            endDate: row.end_date ? new Date(row.end_date).getTime() : undefined,
-            assignedUsers: [] as User[],
-            workouts: [] as Workout[],
-        }; 
- 
+export const adaptGetWorkoutToResponse = (res: any) => {
+    const workoutPlan = {
+        id: res[0].workoutPlanId,
+        name: res[0].title,
+        objective: res[0].objective,
+        duration: res[0].duration,
+        initDate: new Date(res[0].init_date).getTime(),
+        endDate: res[0].end_date ? new Date(res[0].end_date).getTime() : undefined,
+        assignedUsers: [] as User[],
+        workouts: [] as Workout[],
+    } as GetWorkoutByIdResponse;
 
+    res.forEach((row: any) => {  
         // Add the user to the assignedUsers array (if not already added)
         if (!workoutPlan.assignedUsers.some((user) => user.id === row.userId)) {
             workoutPlan.assignedUsers.push({
@@ -34,8 +32,7 @@ export const adaptGetWorkoutToResponse = (res: any) => {
                 exercise: [] as Exercise[],
             };
             workoutPlan.workouts.push(workout);
-        }
-
+        } 
         // Add exercises to the workout
         workout.exercise.push({
             id: row.exerciseId,
@@ -46,7 +43,7 @@ export const adaptGetWorkoutToResponse = (res: any) => {
             rir: row.rir ? parseInt(row.rir, 10) : undefined,
             rpe: row.rpe ? parseInt(row.rpe, 10) : undefined,
             comments: row.comments || '',
-        });
+        }); 
     });
     return workoutPlan;
 }
