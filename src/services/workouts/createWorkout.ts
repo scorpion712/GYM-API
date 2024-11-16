@@ -6,7 +6,13 @@ import { CreateWorkoutPlanRequest, CreateWorkoutPlanResponse } from '../../model
 
 export const createWorkout = async (request: CreateWorkoutPlanRequest) => {
   
-  await pool.beginTransaction();
+  const connection = await pool.getConnection();
+
+  const res = await connection.query('SELECT * FROM workoutPlan WHERE title = ?', [request.name]);
+  if (res[0]) {
+    throw createHttpError(400, `Ya existe un plan de entrenamiento con ese nombre`); 
+  }
+  await connection.beginTransaction();
 
   const { name, initDate, workouts, customersId, duration, endDate, objective } = request;
   try {
@@ -14,12 +20,12 @@ export const createWorkout = async (request: CreateWorkoutPlanRequest) => {
     const workoutPlanId = uuidv4();
 
     const insertWorkoutPlanQuery = 'INSERT INTO workoutPlan (id, title, objective, duration, init_date) VALUES (?, ?, ?, ?, ?)'
-    await pool.query(insertWorkoutPlanQuery, [workoutPlanId, name, objective, duration, initDate]);
+    await connection.query(insertWorkoutPlanQuery, [workoutPlanId, name, objective, duration, initDate]);
 
     // Insert into `userWorkoutsPlan`
     customersId?.forEach(async customerId => {
       const insertUserWorkoutPlanQuery = 'INSERT INTO userWorkoutPlan (id, userId, workoutPlanId) VALUES (?, ?, ?)'
-      await pool.query(insertUserWorkoutPlanQuery, [uuidv4(), customerId, workoutPlanId]);
+      await connection.query(insertUserWorkoutPlanQuery, [uuidv4(), customerId, workoutPlanId]);
     });
 
     // Insert into `workout`
@@ -28,25 +34,25 @@ export const createWorkout = async (request: CreateWorkoutPlanRequest) => {
       const { week, day, description, exercises } = workout;
 
       const insertWorkoutQuery = 'INSERT INTO workout (id, planId, week, day, description) VALUES (?, ?, ?, ?, ?)';
-      await pool.query(insertWorkoutQuery, [workoutId, workoutPlanId, week, day, description]);
+      await connection.query(insertWorkoutQuery, [workoutId, workoutPlanId, week, day, description]);
 
       // Insert into `exercise`
       exercises.forEach(async (exercise) => {
         const { id, name, series, repetitions, weight, rir, rpe, comments } = exercise;
         const insertExerciseQuery = 'INSERT INTO exercise (id, name, series, reps, weight, rir, rpe, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        await pool.query(insertExerciseQuery, [id, name, series, repetitions, weight, rir, rpe, comments]);
+        await connection.query(insertExerciseQuery, [id, name, series, repetitions, weight, rir, rpe, comments]);
         // Insert into `workoutExercise`
         const insertWorkoutExerciseQuery = 'INSERT INTO workoutExercise (id, workoutId, exerciseId) VALUES (?, ?, ?)'
-        await pool.query(insertWorkoutExerciseQuery, [uuidv4(), workoutId, id]);
+        await connection.query(insertWorkoutExerciseQuery, [uuidv4(), workoutId, id]);
       });
     });
 
-    await pool.commit();
+    await connection.commit();
 
     return { id: workoutPlanId } as CreateWorkoutPlanResponse;
   } catch (error) {
     // Rollback the transaction in case of an error
-    await pool.rollback();
+    await connection.rollback();
 
     console.log(error);
     throw createHttpError(400, `Ha ocurrido un error al intentar gaurdar el plan de entrenamiento`);
