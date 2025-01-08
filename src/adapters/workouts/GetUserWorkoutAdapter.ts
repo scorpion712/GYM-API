@@ -1,6 +1,7 @@
 import { GetUserWorkoutResponse } from "../../models";
 
-export const adaptGetUserWorkoutToResponse = (res: any) => {
+export const adaptGetUserWorkoutToResponse = (res: any) => { 
+    if (!res[0]) return null; 
     const workoutPlan = {
         id: res[0].workoutPlanId,
         workoutPlanName: res[0].title,
@@ -10,7 +11,7 @@ export const adaptGetUserWorkoutToResponse = (res: any) => {
         endDate: res[0].end_date ? new Date(res[0].end_date).getTime() : undefined,
         userName: res[0].userName,
         userId: res[0].userId,
-        userDaysPerWeek: res[0].userDaysPerWeek.split(',').map((value: string) => value === 'true'),
+        userDaysPerWeek: res[0].daysPerWeek.split(',').map((value: string) => value === 'true'),
         workouts: [],
     } as GetUserWorkoutResponse;
 
