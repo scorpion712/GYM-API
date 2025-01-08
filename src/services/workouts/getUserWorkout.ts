@@ -35,9 +35,13 @@ export const getUserWorkout = async (userId: string) => {
                 JOIN workoutExercise we ON we.workoutId = w.id
                 JOIN exercise e ON we.exerciseId = e.id
                 WHERE u.id = ? AND u.active 
+                AND uwp.createdAt = (
+                    SELECT MAX(createdAt)
+                    FROM userWorkoutPlan
+                    WHERE userId = u.id
+                )
             GROUP BY wp.id, w.id, e.id, u.id
-            ORDER BY uwp.createdAt DESC, wp.id, w.id, e.id
-            LIMIT 1`,
+            ORDER BY wp.id, w.id, e.id`,
             [userId]);
 
         if (!res[0])
