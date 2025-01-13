@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import workoutRoutes from './routes/workoutRoutes';
 import { errorHandler } from './middlewares/errorHandler';
+import membershipRoutes from './routes/membershipRoutes';
 
 const app = express();
 app.use(cors());
@@ -13,7 +14,8 @@ app.use(express.json());
 // Public routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api/WorkoutPlan', workoutRoutes);
+app.use('/api/WorkoutPlan', workoutRoutes); 
+app.use('/api/Membership', membershipRoutes); 
 
 // Protected routes (example)
 // app.use('/api/protected', authorize(['admin', 'user']), (req, res) => {
