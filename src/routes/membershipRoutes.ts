@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { registerUserPayment } from "../controllers/membershipController";
+import { getMembershipsHistory, registerUserPayment } from "../controllers/membershipController";
 
 const router = Router();
 
 router.post('/', registerUserPayment);
+router.get('/', getMembershipsHistory);	
 
 export default router;	
