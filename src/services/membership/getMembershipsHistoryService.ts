@@ -9,7 +9,7 @@ export const getMembershipsHistoryService = async (req: GetMembershipHistoryRequ
 
     try {
         // TO DO: add filters
-        const res = await connection.query(`SELECT (SELECT COUNT(*) FROM users WHERE active) as total,  
+        const res = await connection.query(`SELECT (SELECT COUNT(*) FROM payments) as total,  
                 p.id,
                 p.userId,
                 CONCAT(u.firstName, ' ', u.lastName) AS userName,
