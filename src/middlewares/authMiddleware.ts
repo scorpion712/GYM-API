@@ -1,18 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express'; 
+
+import { verifyAccessToken } from '../helpers/auth/jwtHelper';
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers['authorization']?.split(' ')[1];
-  
+
   if (!token) {
-    return res.status(403).send('Token is required for authentication');
+    return res.status(403).json({ message: 'El token es requerido para esta acción' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET as string, (err, decoded) => {
-    if (err) {
-      return res.status(401).send('Unauthorized');
-    }
-    (req as any).user = decoded; 
+  try {
+    const decoded = verifyAccessToken(token as string);
+    (req as any).user = decoded;  // Attach user info to the request object
     next();
-  });
+  } catch (err) {
+    return res.status(401).json({ message: 'El token ha expirado o no es válido' });
+  }
 };
