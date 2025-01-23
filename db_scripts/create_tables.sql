@@ -39,7 +39,7 @@ CREATE TABLE payments (
 
 CREATE TABLE workoutPlan (
     id VARCHAR(36) PRIMARY KEY,
-    title VARCHAR(20) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     objective VARCHAR(100) NOT NULL,
     duration INT NOT NULL,
     init_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
