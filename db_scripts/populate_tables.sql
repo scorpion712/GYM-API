@@ -5,6 +5,7 @@
 -- Insert users (Famous Fitness, Bodybuilders, etc.)
 INSERT INTO users (id, firstName, lastName, age, phone, email, idNumber, considerations, daysPerWeek)
 VALUES
+('ff10e1e0-16f9-4e19-8a4d-64f80a8f8fe7', 'Admin', 'Super', 1, '123456789', 'admin@gym.com', '123456789', '', 'true,true,true,true,true'),
 ('a4f929d0-e2b6-4a8d-bcc2-dc94b3f38b3e', 'Arnold', 'Schwarzenegger', 76, '1234567890', 'arnold.schwarzenegger@example.com', '123456789', 'No back issues, needs a daily routine', 'true,true,true,true,true'),
 ('cc8e7a1a-69e7-4fd7-9253-724b84960255', 'Jay', 'Cutler', 45, '0987654321', 'jay.cutler@example.com', '987654321', 'Heavy lifting preferred, enjoys split routines', 'true,true,true,true,true'),
 ('f9d9f3a4-2b9f-44b9-b1f0-f953b582ed23', 'Dwayne', 'Johnson', 52, '1122334455', 'dwayne.johnson@example.com', '556677889', 'Enjoys intense cardio and weights', 'false,true,false,true,false'),
