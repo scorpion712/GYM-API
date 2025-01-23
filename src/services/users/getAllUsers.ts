@@ -6,7 +6,7 @@ import { adaptGetAllUsersToResponse } from '../../adapters';
 export const getAllUsers = async () => {
   try {
     const res = await pool.query(`SELECT 
-          (SELECT COUNT(*) FROM users WHERE active) as total,
+          (SELECT COUNT(*) FROM users WHERE active and userRole NOT LIKE 'admin') as total,
           u.id, 
           u.firstName, 
           u.lastName, 
@@ -20,7 +20,7 @@ export const getAllUsers = async () => {
           MAX(p.date) AS lastPaidDate 
         FROM users u 
           LEFT JOIN payments p ON u.id = p.userId
-        WHERE u.active
+        WHERE u.active and u.userRole NOT LIKE 'admin'
         GROUP BY u.id `);
     return adaptGetAllUsersToResponse(res[0]);
   } catch (error) {

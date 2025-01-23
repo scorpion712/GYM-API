@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Public routes
-app.use('/api/auth', authRoutes);
+app.use('/api/Auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/WorkoutPlan', workoutRoutes); 
 app.use('/api/Membership', membershipRoutes); 
